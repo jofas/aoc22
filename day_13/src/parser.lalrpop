@@ -1,0 +1,18 @@
+use std::str::FromStr;
+
+use crate::Value;
+
+grammar;
+
+pub Value: Value = {
+    <Num> => Value::Number(<>),
+    "[" <mut list: (<Value> ",")*> <last: Value?> "]" => {
+      if let Some(last) = last {
+        list.push(last);
+      }
+
+      Value::List(list)
+    }
+};
+
+Num: u32 = <s:r"[0-9]+"> => u32::from_str(s).unwrap();
