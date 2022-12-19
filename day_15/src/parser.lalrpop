@@ -1,0 +1,11 @@
+use std::str::FromStr;
+
+grammar;
+
+pub Input: Vec<(i32, i32, i32, i32)> = {
+  <Line*> => <>
+};
+
+Line: (i32, i32, i32, i32) = "Sensor at x=" <sx: Num> ", y=" <sy: Num> ": closest beacon is at x=" <bx: Num> ", y=" <by: Num> => (sx, sy, bx, by);
+
+Num: i32 = <s:r"-?[0-9]+"> => i32::from_str(s).unwrap();
